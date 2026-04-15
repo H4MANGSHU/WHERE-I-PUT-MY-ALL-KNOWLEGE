@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-base-service
+  namespace: hackathon-app
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/actuator/prometheus"
+    prometheus.io/port: "8086"
+spec:
+  type: LoadBalancer
+  selector:
+    app: Ai-project
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8086
+      protocol: TCP

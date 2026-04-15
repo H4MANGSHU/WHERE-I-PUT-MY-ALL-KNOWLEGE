@@ -1,0 +1,31 @@
+groups:
+  - name: spring-boot-alerts
+    rules:
+      # 1. Immediate Alert: Agar App Down ho jaye
+      - alert: ServiceDown
+        expr: up == 0
+        for: 10s       # Sirf 10 second wait karega (Demo ke liye best)
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instance {{ $labels.instance }} is DOWN!"
+          description: "Spring Boot application on port 8086 has stopped responding."
+
+      # 2. Fast Alert: High Error Rate (5xx Errors)
+      - alert: HighErrorRate
+        expr: rate(http_server_requests_seconds_count{status=~"5.."}[30s]) > 0.01
+        for: 15s       # Jaldi trigger hoga
+        labels:
+          severity: critical
+        annotations:
+          summary: "Critical: High error rate on {{ $labels.instance }}"
+          description: "More than 5% of requests are failing with 5xx status codes."
+
+      # 3. Fast Alert: Slow Response (p99 Latency)
+      - alert: SlowResponse
+        expr: histogram_quantile(0.99, rate(http_server_requests_seconds_bucket[1m])) > 1.0
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Warning: p99 latency above 1s on {{ $labels.instance }}"
