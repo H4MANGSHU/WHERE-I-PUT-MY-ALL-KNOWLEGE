@@ -1,4 +1,3 @@
-# FST2SMS Messaging Service
 
 A production-grade, non-blocking SMS messaging microservice built for resilience, observability, and zero-downtime operations.
 
