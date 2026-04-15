@@ -32,8 +32,8 @@ spec:
         vault.hashicorp.com/agent-inject-secret-oauth: "secret/hackathon-app/oauth"
     spec:
       containers:
-        - name: order-service
-          image: hac/order-service:1.0.0
+        - name: hackathon-service
+          image: hac/hackathon-service:1.0.0
           ports:
             - name: http
               containerPort: 8080
